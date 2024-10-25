@@ -9,16 +9,16 @@ provider:
 
 functions:
   agendas:
-    handler: src/index.handler
-    description: My first lambda example
+    handler: src/agenda/controller/agenda-controller.handler
+    description: Retorna uma lista de médicos com suas respectivas agendas e horários disponíveis.
     events:
       - http:
           path: /agendas
           method: get
           cors: true
   agendamento:
-    handler: index.handler
-    description: My first lambda example
+    handler: src/agendamento/controller/agendamento-controller.handler
+    description: Permite que o paciente marque um horário de consulta com um médico.
     events:
       - http:
           path: /agendamento
