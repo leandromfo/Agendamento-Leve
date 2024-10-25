@@ -1,0 +1,29 @@
+service: sls-agendamento-leve
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  memorySize: 128
+  timeout: 3
+
+functions:
+  agendas:
+    handler: src/index.handler
+    description: My first lambda example
+    events:
+      - http:
+          path: /agendas
+          method: get
+          cors: true
+  agendamento:
+    handler: index.handler
+    description: My first lambda example
+    events:
+      - http:
+          path: /agendamento
+          method: post
+          cors: true
+
+plugins:
+  - serverless-offline
