@@ -1,5 +1,6 @@
 .vscode
 NOTES.md
+/coverage
 /dist
 /node_modules
 /undefined

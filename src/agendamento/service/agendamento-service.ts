@@ -1,4 +1,6 @@
 import { AgendaServiceInterface } from "../../agenda/interface/agenda-service-interface"
+import { StatusCodeEnum } from "../../utils/enum/status-code-enum"
+import { ErrorUtil } from "../../utils/error/error-util"
 import { AgendamentoRepositoryInterface } from "../interface/agendamento-repository-interface"
 import {
 	AgendamentoServiceInterface,
@@ -18,7 +20,7 @@ export class AgendamentoService implements AgendamentoServiceInterface {
 	): AgendarResponse {
 		const agenda = this.agendaService.getAgendaById(medico_id)
 
-		this.validahorario(data_horario, agenda.getHorarios_disponiveis())
+		this.validahorario(data_horario, agenda.horarios_disponiveis)
 
 		const agendamento = this.agendamentoRepository.agendar(
 			medico_id,
@@ -29,9 +31,9 @@ export class AgendamentoService implements AgendamentoServiceInterface {
 		return {
 			mensagem: "Agendamento realizado com sucesso",
 			agendamento: {
-				medico: agenda.getNome(),
-				paciente: agendamento.getPaciente_nome(),
-				data_horario: agendamento.getData_horario(),
+				medico: agenda.nome,
+				paciente: agendamento.paciente_nome,
+				data_horario: agendamento.data_horario,
 			},
 		}
 	}
@@ -40,7 +42,10 @@ export class AgendamentoService implements AgendamentoServiceInterface {
 		data_horario: string,
 		horarios_disponiveis: string[]
 	) {
-		if (data_horario! in horarios_disponiveis)
-			throw new Error("Horário não disponível!")
+		if (!horarios_disponiveis.includes(data_horario))
+			throw new ErrorUtil(
+				StatusCodeEnum.BAD_REQUEST,
+				"Horário selecionado não disponível!"
+			)
 	}
 }

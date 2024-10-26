@@ -7,6 +7,6 @@ export class AgendamentoMock implements AgendamentoRepositoryInterface {
 		paciente_nome: string,
 		data_horario: string
 	): AgendamentoDto {
-		return new AgendamentoDto(medico_id, paciente_nome, data_horario)
+		return { medico_id, paciente_nome, data_horario }
 	}
 }

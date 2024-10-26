@@ -1,17 +1,26 @@
+import { StatusCodeEnum } from "../../utils/enum/status-code-enum"
+import { ErrorUtil } from "../../utils/error/error-util"
 import { AgendaDto } from "../dto/agenda-dto"
 import { AgendaRepositoryInterface } from "../interface/agenda-repository-interface"
 
 export class AgendaMock implements AgendaRepositoryInterface {
 	static agendas = [
-		new AgendaDto(1, "Dr. João Silva", "Cardiologista", [
-			"2024-10-05 09:00",
-			"2024-10-05 10:00",
-			"2024-10-05 11:00",
-		]),
-		new AgendaDto(2, "Dra. Maria Souza", "Dermatologista", [
-			"2024-10-06 14:00",
-			"2024-10-06 15:00",
-		]),
+		{
+			id: 1,
+			nome: "Dr. João Silva",
+			especialidade: "Cardiologista",
+			horarios_disponiveis: [
+				"2024-10-05 09:00",
+				"2024-10-05 10:00",
+				"2024-10-05 11:00",
+			],
+		},
+		{
+			id: 2,
+			nome: "Dra. Maria Souza",
+			especialidade: "Dermatologista",
+			horarios_disponiveis: ["2024-10-06 14:00", "2024-10-06 15:00"],
+		},
 	]
 
 	getAgendaLista(): AgendaDto[] {
@@ -19,8 +28,12 @@ export class AgendaMock implements AgendaRepositoryInterface {
 	}
 
 	getAgendaById(id: number): AgendaDto {
-		const agenda = AgendaMock.agendas.find(agenda => agenda.getId() === id)
-		if (!agenda) throw new Error("Horário não encontrado!")
+		const agenda = AgendaMock.agendas.find(agenda => agenda.id === id)
+		if (!agenda)
+			throw new ErrorUtil(
+				StatusCodeEnum.BAD_REQUEST,
+				"Médico não encontrado!"
+			)
 		return agenda
 	}
 }

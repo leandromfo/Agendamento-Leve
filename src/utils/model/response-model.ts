@@ -1,6 +1,7 @@
-import { StausCodeEnum } from "../enum/status-code-enum"
+import { StatusCodeEnum } from "../enum/status-code-enum"
 
 export interface ResponseModel {
-	statusCode: StausCodeEnum
-	body: string
+	statusCode: StatusCodeEnum
+	body?: string
+	message?: string
 }
